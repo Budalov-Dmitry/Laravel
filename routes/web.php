@@ -1,6 +1,8 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsController;
+use App\Http\Controllers\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,4 +21,13 @@ Route::get('/', function () {
 
 Route::get('/login', function () {
     return view('login');
-});
+})
+->name('login');
+
+Route::get('/news', [NewsController::class, 'index'])
+    ->name('news.index');
+Route::get('/news/{id}', [NewsController::class, 'show'])
+    ->where('id', '\d+')
+    ->name('news.show');
+Route::get('/category', [CategoryController::class, 'index'])
+    ->name('news.category');
