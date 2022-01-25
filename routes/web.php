@@ -24,10 +24,11 @@ Route::get('/login', function () {
 })
 ->name('login');
 
-Route::get('/news', [NewsController::class, 'index'])
+Route::get('/category', [CategoryController::class, 'index'])
+    ->name('news.category');
+Route::get('/newsbycat/{id}', [NewsController::class, 'index'])
+    ->where('id', '\d+')
     ->name('news.index');
 Route::get('/news/{id}', [NewsController::class, 'show'])
     ->where('id', '\d+')
     ->name('news.show');
-Route::get('/category', [CategoryController::class, 'index'])
-    ->name('news.category');
