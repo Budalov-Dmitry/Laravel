@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Category;
 use Illuminate\Http\Request;
 
 class CategoryController extends Controller
 {
     public function index()
     {
-        $category = $this->getCategory();
+        $model = new Category();
+        $category = $model->getCategories();
+
 
         return view('news.category', [
             'category' => $category
