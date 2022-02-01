@@ -11,7 +11,7 @@ class NewsController extends Controller
     {
         $model = new News();
         $news = $model->getNews($id);
-        //$news = $model->getNews($_GET['id']);
+//        $news = News::query()->getNews($id);
 
 
         return view('news.index', [
@@ -21,8 +21,10 @@ class NewsController extends Controller
 
     public function show(int $id)
     {
-        $model = new News();
-        $news = $model->getNewsById($id);
+//        $model = new News();
+//        $news = $model->getNewsById($id);
+
+        $news = News::findOrFail($id);
 
         return view('news.show', [
             'newsItem' => $news

@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
+use App\Models\Category;
 
 class NewsController extends Controller
 {
@@ -30,7 +31,10 @@ class NewsController extends Controller
      */
     public function create()
     {
-        return "Создать новсть";
+        $categories = Category::all();
+        return view('admin.news.create', [
+            'categories' => $categories
+        ]);
     }
 
     /**
@@ -41,7 +45,25 @@ class NewsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'title' => ['required', 'string', 'min:5']
+        ]);
+
+
+
+        $created = News::create(
+            $request->only(['category_id', 'title', 'author', 'status', 'description']) + [
+                'slug' => \Str::slug($request->input('title'))
+            ]
+        );
+
+        if($created) {
+            return redirect()->route('admin.news.index')
+                ->with('success', 'Запись успешно добавлена');
+        }
+
+        return back()->with('error', 'Не удалось добавить запись')
+            ->withInput();
     }
 
     /**
@@ -58,24 +80,37 @@ class NewsController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(News $news)
     {
-        //
+        return view('admin.news.edit', [
+            'news' => $news
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param \Illuminate\Http\Request $request
+     * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, News $news)
     {
-        //
+
+        $updated = $news->fill($request->only(['category_id', 'title', 'author', 'status', 'description']) + [
+                'slug' => \Str::slug($request->input('title'))
+            ])->save();
+
+        if($updated) {
+            return redirect()->route('admin.news.index')
+                ->with('success', 'Запись успешно обновлена');
+        }
+
+        return back()->with('error', 'Не удалось обновить запись')
+            ->withInput();
     }
 
     /**

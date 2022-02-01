@@ -13,8 +13,8 @@ class CategoryController extends Controller
         $category = $model->getCategories();
 
 
-        return view('news.category', [
-            'category' => $category
+        return view('news.categories', [
+            'categories' => $category
         ]);
     }
 }

@@ -6,7 +6,7 @@
     <div class="bg-gray-800 pt-3">
         <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
             <h1 class="font-bold pl-2">Новости</h1>
-            <a class="font-bold pl-2" href=" {{ route('admin.news.create') }} ">Добавить новость</a>
+            <a class="font-bold pl-2" href="{{ route('admin.news.create') }}">Добавить новость</a>
         </div>
 @endsection
 @section('content')
@@ -18,7 +18,10 @@
                     </div>
                     <div class="flex-1 text-right md:text-center">
                         <h2 class="font-bold uppercase text-gray-600">{{ $newsItem->title }}</h2>
-                        <p class="font-bold text-3xl">{{$newsItem->description}}</p>
+                        <p class=" text-1xl">{{$newsItem->description}}</p>
+                        <a style="float: right;" href="{{ route('admin.news.edit', ['news' => $newsItem->id]) }}">Редактировать</a> &nbsp;
+                        <br>
+                        <a  href="#" style="color:#b81717; float: right;">Удалить</a>
                     </div>
                 </div>
             </div>

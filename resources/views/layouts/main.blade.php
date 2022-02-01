@@ -87,7 +87,7 @@
             <nav>
                 <ul class="md:flex items-center justify-between text-base text-gray-700 pt-4 md:pt-0">
                     <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
-                           href="<?=route('news.category')?>">Категории</a>
+                           href="<?=route('news.categories')?>">Категории</a>
                     </li>
                     <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                            href="<?=route('main')?>">Main page</a>

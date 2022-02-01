@@ -3,13 +3,24 @@
 namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Schema\Builder;
 
 class News extends Model
 {
     use HasFactory;
 
     protected $table = 'news';
+
+    protected $fillable = [
+        'category_id',
+        'title',
+        'slug',
+        'source',
+        'status',
+        'description'
+    ];
 
     public function getNews(int $category_id): array
     {
