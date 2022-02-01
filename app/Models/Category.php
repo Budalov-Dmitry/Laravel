@@ -11,6 +11,11 @@ class Category extends Model
 
     protected $table = 'categories';
 
+    protected $fillable = [
+        'title',
+        'description'
+    ];
+
     public function getCategories(): array
     {
         return \DB::table($this->table)
