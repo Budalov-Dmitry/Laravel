@@ -20,6 +20,14 @@ class News extends Model
             ->toArray();
     }
 
+    public function getAdminNews(): array
+    {
+        return \DB::table($this->table)
+            ->select(['id', 'title', 'slug',  'source', 'status', 'description'])
+            ->get()
+            ->toArray();
+    }
+
     public function getNewsById(int $id)
     {
         return \DB::table($this->table)->find($id);
