@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Category;
+use App\Http\Requests\News\CreateRequest;
+use App\Http\Requests\News\EditRequest;
 
 class NewsController extends Controller
 {
@@ -40,22 +42,17 @@ class NewsController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
-        $request->validate([
-            'title' => ['required', 'string', 'min:5']
-        ]);
 
-
-
-        $created = News::create(
-            $request->only(['category_id', 'title', 'author', 'status', 'description']) + [
+        $created = News::create($request->validated() + [
                 'slug' => \Str::slug($request->input('title'))
             ]
         );
+
 
         if($created) {
             return redirect()->route('admin.news.index')
@@ -85,22 +82,24 @@ class NewsController extends Controller
      */
     public function edit(News $news)
     {
+        $categories = Category::all();
         return view('admin.news.edit', [
-            'news' => $news
+            'news' => $news,
+            'categories' => $categories
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param \Illuminate\Http\Request $request
+     * @param EditRequest $request
      * @param News $news
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, News $news)
+    public function update(EditRequest $request, News $news)
     {
 
-        $updated = $news->fill($request->only(['category_id', 'title', 'author', 'status', 'description']) + [
+        $updated = $news->fill($request->validated() + [
                 'slug' => \Str::slug($request->input('title'))
             ])->save();
 
@@ -116,11 +115,16 @@ class NewsController extends Controller
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  News $news
      * @return \Illuminate\Http\Response
      */
-    public function destroy($id)
+    public function destroy(News $news)
     {
-        //
+        try{
+            $news->delete();
+            return response()->json('ok');
+        }catch(\Exception $e) {
+            ("Error delete news item");
+        }
     }
 }
