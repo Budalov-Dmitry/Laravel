@@ -1,31 +1,34 @@
 @extends('layouts.admin')
 @section('title') Редактировать запись @endsection
 @section('header')
-    <h1 class="h2">Редактировать запись</h1>
-    <div class="btn-toolbar mb-2 mb-md-0">
-        <div class="btn-group me-2">
-
+    <div class="bg-gray-800 pt-3">
+        <div class="rounded-tl-3xl bg-gradient-to-r from-blue-900 to-gray-800 p-4 shadow text-2xl text-white">
+            <h1 class="font-bold pl-2">Редактировать запись</h1>
         </div>
-
     </div>
 @endsection
 @section('content')
-    @if($errors->any())
-        @foreach($errors->all() as $error)
-            <x-alert type="danger" :message="$error"></x-alert>
-        @endforeach
-    @endif
     <div style="background-color: white" class="p-6">
         <form method="post" action="{{ route('admin.news.update', ['news' => $news]) }}">
             @csrf
             @method('put')
             <div class="form-group">
+                <label for="category_id">Категория</label>
+                <select class="form-control" id="category_id" name="category_id">
+                    @foreach($categories as $category)
+                        <option value="{{ $category->id }}">{{ $category->title }}</option>
+                    @endforeach
+                </select>
+            </div>
+            <div class="form-group">
                 <label for="title">Наименование</label>
                 <input type="text" class="form-control" id="title" name="title" value="{{ $news->title }}">
+                @error('title') <strong style="color:red;">{{ $message }}</strong> @enderror
             </div>
             <div class="form-group">
                 <label for="author">Автор</label>
-                <input type="text" class="form-control" id="author" name="author" value="{{ $news->author }}">
+                <input type="text" class="form-control" id="source" name="source" value="{{ $news->source }}">
+                @error('source') <strong style="color:red;">{{ $message }}</strong> @enderror
             </div>
             <div class="form-group">
                 <label for="status">Статус</label>
@@ -38,6 +41,7 @@
             <div class="form-group">
                 <label for="description">Описание</label>
                 <textarea class="form-control" name="description" id="description">{!! $news->description !!}</textarea>
+                @error('description') <strong style="color:red;">{{ $message }}</strong> @enderror
             </div>
             <br>
             <button type="submit" class="btn btn-success" style="float: right;">Сохранить</button>

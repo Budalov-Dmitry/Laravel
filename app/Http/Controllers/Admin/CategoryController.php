@@ -6,6 +6,8 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\News;
 use App\Models\Category;
+use App\Http\Requests\Category\CreateRequest;
+use App\Http\Requests\Category\EditRequest;
 
 class CategoryController extends Controller
 {
@@ -37,13 +39,13 @@ class CategoryController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  CreateRequest $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(CreateRequest $request)
     {
         $created = Category::create(
-            $request->only(['id', 'title', 'description'])
+            $request->$request->validated()
         );
 
         if($created) {
@@ -69,7 +71,7 @@ class CategoryController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  Category $category
+     * @param  EditRequest $category
      * @return \Illuminate\Http\Response
      */
     public function edit(Category $category)
@@ -83,14 +85,14 @@ class CategoryController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  EditRequest $request
      * @param  Category $category
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Category $category)
+    public function update(EditRequest $request, Category $category)
     {
 
-        $updated = $category->fill($request->only(['id', 'title','description']))->save();
+        $updated = $category->fill($request->validated())->save();
 
         if($updated) {
             return redirect()->route('admin.categories.index')

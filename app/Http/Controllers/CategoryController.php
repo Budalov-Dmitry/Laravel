@@ -14,7 +14,7 @@ class CategoryController extends Controller
 
 
         return view('news.categories', [
-            'categories' => $category
+            'category' => $category
         ]);
     }
 }
