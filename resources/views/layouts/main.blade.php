@@ -92,6 +92,9 @@
                     <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
                            href="<?=route('main')?>">Main page</a>
                     </li>
+                    <li><a class="inline-block no-underline hover:text-black hover:underline py-2 px-4"
+                           href="<?=route('money')?>">Курсы валют</a>
+                    </li>
                 </ul>
             </nav>
         </div>
